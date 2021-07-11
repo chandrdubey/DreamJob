@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+const express = require('express');
+const app = express();
+const routes = require('./routes');
+const cors = require('cors');
+const helmet = require("helmet");
+const passport = require('passport');
+const PORT = "5000";
+//const passportJwt = require('./config/passport-jwt-strategy')
+app.use(express.json());
+app.use(helmet());
+app.use(express.urlencoded({extended:false})); 
+app.use(cors());
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+app.use('/', routes);  
+
+app.listen(PORT , (err) =>{
+    if(err)
+    {
+        console.log(`there is an error ${err}`);
+    }
+    console.log(`the server is running on ${PORT}`);
+});
