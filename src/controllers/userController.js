@@ -198,12 +198,10 @@ module.exports = {
     jobAllCandidates: async (req, res)=>{
         try{
             const {job_id} = req.body;
-            const result = await pool.query("")
+            const result = await pool.query("SELECT s.user_id, s.name, s.email, s.city, s.created_at, appli.application_id from jobseekers as s inner join applications as appli on appli.user_id = s.user_id where appli.job_id = 1;            ")
         }
         catch (err) {
 
         }
-        
-
     }
 }
