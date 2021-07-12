@@ -96,7 +96,7 @@ module.exports = {
                 }
             }
         } catch (err) {
-            return res.json({status: 500, message: err});
+            return res.json({status: 404, message: err});
         }
     },
     signin : async (req, res) => {
@@ -172,7 +172,38 @@ module.exports = {
                 }
             }
         } catch (err) {
-            return res.json({status: 500, message: err});
+            return res.json({status: 404, message: err});
         }
+    },
+    recruiterAllJobs: async (req, res) => {
+        try{
+            const {recruiter_id} = req.body;
+            const result = await pool.query("SELECT * FROM jobs WHERE recruiter_id = $1",[recruiter_id]);
+            res.json({status:200, message:result.rows});
+        }
+        catch (err) {
+            return res.json({status: 404, message: err});
+        }
+    },
+    applyJob: async (req, res) => {
+        try{
+            const {candidate_id, job_id} = req.body;
+            const result = await pool.query("INSERT INTO applications (user_id, job_id) VALUES ($1, $2) RETURNING*", [candidate_id, job_id]);
+            res.json({status:200, message:"Application added successfully"});
+        }
+        catch (err) {
+            return res.json({status: 404, message: err});
+        }
+    },
+    jobAllCandidates: async (req, res)=>{
+        try{
+            const {job_id} = req.body;
+            const result = await pool.query("")
+        }
+        catch (err) {
+
+        }
+        
+
     }
 }
