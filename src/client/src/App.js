@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Jobs from './components/Jobs';
 import RecruiterPage from './components/RecruiterPage';
+import NewJob from './components/NewJob';
 import "./App.css";
 class App extends Component {
   
@@ -17,8 +18,10 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
-          <Route path="/jobs" component={Jobs} />
+          <Route path= "/jobs/new" exact component={NewJob}/>
+          <Route path="/jobs" exact component={Jobs} />
           <Route path= "/recruiters/:id" component={RecruiterPage}/>
+          
 
           {/* <Route  path ='/comics/:id'  component={ComicPage} /> */}
           </Switch>

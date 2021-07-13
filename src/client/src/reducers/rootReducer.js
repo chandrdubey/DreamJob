@@ -21,6 +21,14 @@ const rootReducer = (state = initState, action) =>{
           
             }        
          }
+         case 'UNLOADING' : {
+            return{
+                ...state,
+                isLoading : false
+          
+            }        
+         }
+
          case 'CHANGE USER TYPE' : {
             return{
                 ...state,

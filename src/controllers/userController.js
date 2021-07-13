@@ -187,8 +187,10 @@ module.exports = {
     },
     recruiterAllJobs: async (req, res) => {
         try{
-            const {recruiter_id} = req.body;
-            const result = await pool.query("SELECT * FROM jobs WHERE recruiter_id = $1",[recruiter_id]);
+            const {id} = req.params;
+            console.log(id);
+            const result = await pool.query("SELECT * FROM jobs WHERE recruiter_id = $1",[id]);
+            console.log(result.rows);
             res.json({status:200, result:result.rows});
         }
         catch (err) {
@@ -208,7 +210,7 @@ module.exports = {
     jobAllCandidates: async (req, res)=>{
         try{
             const {job_id} = req.body;
-            const result = await pool.query("SELECT s.user_id, s.name, s.email, s.city, s.created_at, appli.application_id from jobseekers as s inner join applications as appli on appli.user_id = s.user_id where appli.job_id = 1;            ")
+            const result = await pool.query("SELECT s.user_id, s.name, s.email, s.city, s.created_at, appli.application_id from jobseekers as s inner join applications as appli on appli.user_id = s.user_id where appli.job_id = 1")
         }
         catch (err) {
 
