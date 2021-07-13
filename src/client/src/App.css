@@ -10,3 +10,6 @@
 .spinner-head{
   width :100px
 }
+.nav-button{
+  border: none  !important;
+}

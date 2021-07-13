@@ -6,13 +6,14 @@ module.exports = {
     signup: async (req, res) => {
         try {
             const {userType} = req.body;
-            
-            if (!userType) {
+            console.log(req.body);
+            if (userType === undefined) {
                 return res.json({status: 404, message: "Type of user is missing"});
             }
+            console.log(1);
             // if type equal to zero , user is jobseeker
-            if (userType === 0) {
-
+            if (userType === false) {
+                console.log(2);
                 const {
                     name,
                     password,
@@ -21,6 +22,8 @@ module.exports = {
                     city,
                     mobile_number
                 } = req.body
+
+                console.log(name);
                 // Checking if email present in the database or not
                 const result = await pool.query("SELECT * FROM jobseekers where email=$1", [email]);
 
@@ -44,7 +47,8 @@ module.exports = {
                     const token = jwt.sign({
                         id: result.rows[0].user_id
                     }, secret, {expiresIn: "2d"});
-                    res.status(200).json({
+                    res.json({
+                        status:200,
                         token,
                         data: {
                             user_detail: {
@@ -66,23 +70,27 @@ module.exports = {
                     email,
                     company_name
                 } = req.body
+                console.log(3);
                 // Checking if email present in the database or not
-                const result = await pool.query("SELECT * FROM recruiters where email=$1", [email]);
+                const result = await pool.query("SELECT * FROM recruiters WHERE email=$1", [email]);
+                console.log(4);
                 if (result.rows.length > 0) { // If it is present , return status 404 with messeage
                     return res.json({status: 400, message: "Email alredy exist"});
                 } else {
                     // If it is not,  detalis of the user will be stored in database with hashed password
                     // creating hash of password
+                    console.log(5);
                     const salt = await bcrypt.genSalt(10);
                     const hashPassword = await bcrypt.hash(password, salt);
                     // console.log(hashPassword);
-                    const result = await pool.query("INSERT INTO jobseekers (name, email, password, compnay_name) VALUES ($1, $2 ,$3, $4) RETURNING*", [name, email, hashPassword, company_name]);
+                    const result = await pool.query("INSERT INTO recruiters (name, email, password, company_name) VALUES($1, $2 ,$3, $4) RETURNING*", [name, email, hashPassword, company_name]);
                     // console.log(JWT_SECRET);
                     // Creating JWT token using user's id
                     const token = jwt.sign({
                         id: result.rows[0].recruiter_id
                     }, secret, {expiresIn: "2d"});
-                    res.status(200).json({
+                    res.json({
+                        status:200,
                         token,
                         data: {
                             user_detail: {
@@ -104,11 +112,11 @@ module.exports = {
         try {
             const {userType} = req.body;
             console.log(req.body);
-            if (!userType) {
+            if (userType === undefined) {
                 return res.json({status: 400, message: "Type of user is missing"});
             }
             // if type equal to zero , user is jobseeker
-            if (userType === 0) {
+            if (userType === false) {
 
                 const {password, email} = req.body
 
@@ -120,7 +128,7 @@ module.exports = {
                     const validPassword = await bcrypt.compare(password, result.rows[0].password);
                     if (! validPassword) {
                         console.log("Wrong password");
-                        return res.status(400).json({message: "Wrong password"});
+                        return res.json({status: 400,message: "Wrong password"});
                     }
                     // console.log(JWT_SECRET);
                     // Creating JWT token using user's id
@@ -163,12 +171,12 @@ module.exports = {
                         token,
                         data: {
                             user_detail: {
-                                user_id: result.rows[0].user_id,
+                                user_id: result.rows[0].recruiter_id,
                                 email: result.rows[0].email,
                                 name: result.rows[0].name,
-                                compnay_name: result.rows[0].compnay_name
+                                company_name: result.rows[0].company_name
                             },
-                            userType: userType
+                            userType: userType,
                         }
                     });
                 }
@@ -181,7 +189,7 @@ module.exports = {
         try{
             const {recruiter_id} = req.body;
             const result = await pool.query("SELECT * FROM jobs WHERE recruiter_id = $1",[recruiter_id]);
-            res.json({status:200, message:result.rows});
+            res.json({status:200, result:result.rows});
         }
         catch (err) {
             return res.json({status: 404, message: err});
@@ -189,8 +197,8 @@ module.exports = {
     },
     applyJob: async (req, res) => {
         try{
-            const {candidate_id, job_id} = req.body;
-            const result = await pool.query("INSERT INTO applications (user_id, job_id) VALUES ($1, $2) RETURNING*", [candidate_id, job_id]);
+            const {user_id, job_id} = req.body;
+            const result = await pool.query("INSERT INTO applications (user_id, job_id) VALUES ($1, $2) RETURNING*", [user_id, job_id]);
             res.json({status:200, message:"Application added successfully"});
         }
         catch (err) {

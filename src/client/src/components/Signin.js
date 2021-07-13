@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import API from "../urls"
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom"
 class Signin extends Component {
     constructor() {
         super();
@@ -18,24 +19,45 @@ class Signin extends Component {
       };
       handleOnSubmit = (event) => {
         event.preventDefault();
-    
         const data = {
           password: this.state.password,
           email: this.state.email,
-          userType: !this.props.userType
+          userType: this.props.userType
         };
-       console.log(data);
+      // console.log(data);
        axios.post(`${API}/signin`, data).then((response) => { 
          console.log(response);
+         console.log(response.data.data.user_detail);
+         //console.log(this.props.dispatch)
+         if(response.data.status === 200){
+          this.props.dispatch({
+            type: "SIGN IN",
+            payload: response.data.data.user_detail,
+          }); 
+          localStorage.setItem("token", response.data.token);
+         }else{
+           console.log(response.data.status.message);
+         }
+        
+        console.log(this.props.currentUser);
        });
       };
   render() {
-   console.log(this.props.userType)
+    if(this.props.isLoggedIn){
+          if(this.props.userType)
+          {
+            return <Redirect to={`/recruiters/${this.props.currentUser.user_id}`} />;
+          }
+          else{
+            return <Redirect to="/jobs" />;
+          }
+    }
     return (
-      <div className="container">
-          <div className="formStyle text-center mx-auto">
+      <div className="container text-center">
+          {this.props.userType ?( <h4> Hiring is Simpler, Smarter & Faster with DreamJob </h4>) :( <h4> Find your dream job </h4>)}  
+          <div className="formStyle  mx-auto">
         <form
-          className="form-style mt-5 "
+          className="form-style mt-3 "
           onSubmit={this.handleOnSubmit}
         >
           <h3 className="text-center">Sign In</h3>
@@ -71,9 +93,11 @@ class Signin extends Component {
     );
   }
 }
-const mapStateToProps = ({ userType }) => {
+const mapStateToProps = ({ userType, currentUser, isLoggedIn }) => {
   return {
     userType,
+    currentUser,
+    isLoggedIn
   };
 };
 export default connect(mapStateToProps) (Signin);

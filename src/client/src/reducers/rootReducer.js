@@ -1,8 +1,7 @@
 const initState = {
-    userType:0,
+    userType: false,
     currentUser:{},
     isLoggedIn:false,
-    recruiterJobs:[],
     isLoading:false,
 }
 const rootReducer = (state = initState, action) =>{
@@ -11,7 +10,8 @@ const rootReducer = (state = initState, action) =>{
            return{
                ...state,
                currentUser:  action.payload,
-               isLoading:    false
+               isLoggedIn: true,
+               
            }
         }
         case 'LOADING' : {
@@ -27,6 +27,19 @@ const rootReducer = (state = initState, action) =>{
                 userType : action.payload
             }        
          }
+         case 'ALL JOBS RECRUITER' : {
+            return{
+                ...state,
+                recruiterJobs : action.payload
+            }        
+         }
+         case 'LOGOUT' :{
+            return{
+                ...state,
+                currentUser :{},
+                isLoggedIn: false
+            }
+        }
         default : {
             return state
         }
