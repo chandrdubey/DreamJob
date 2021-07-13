@@ -6,6 +6,7 @@ module.exports = {
     signup: async (req, res) => {
         try {
             const {userType} = req.body;
+            
             if (!userType) {
                 return res.json({status: 404, message: "Type of user is missing"});
             }
@@ -102,8 +103,9 @@ module.exports = {
     signin : async (req, res) => {
         try {
             const {userType} = req.body;
+            console.log(req.body);
             if (!userType) {
-                return res.json({status: 404, message: "Type of user is missing"});
+                return res.json({status: 400, message: "Type of user is missing"});
             }
             // if type equal to zero , user is jobseeker
             if (userType === 0) {

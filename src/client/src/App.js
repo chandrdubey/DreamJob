@@ -4,7 +4,9 @@ import Signup from './components/Signup';
 import Signin from './components/Signin';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
+import "./App.css";
 class App extends Component {
+  
   render() {
     return (
       <div>
@@ -13,6 +15,7 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
+          <Route path="/jobs" component={Signin} />
           {/* <Route  path ='/comics/:id'  component={ComicPage} /> */}
           </Switch>
       </div>
