@@ -5,9 +5,15 @@ class Navbar extends Component {
   handleClick = () => {
     this.props.dispatch({
       type: "CHANGE USER TYPE",
-      payload: !this.props.userType,
+      payload: true,
     });
   };
+  handleRecruiterClick =()=>{
+    this.props.dispatch({
+      type: "CHANGE USER TYPE",
+      payload: false,
+    });
+  }
   handleLogOut = () => {
     this.props.dispatch({ type: "LOGOUT" });
     localStorage.removeItem("token");
@@ -133,7 +139,7 @@ class Navbar extends Component {
                       <li className="nav-item">
                         <button
                           className="nav-link nav-button"
-                          onClick={this.handleClick}
+                          onClick={this.handleRecruiterClick}
                         >
                           For JobSeekers 
                         </button>

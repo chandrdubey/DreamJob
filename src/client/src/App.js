@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Jobs from './components/Jobs';
 import RecruiterPage from './components/RecruiterPage';
 import NewJob from './components/NewJob';
+import Candidates from './components/Candidates';
 import "./App.css";
 class App extends Component {
   
@@ -19,6 +20,7 @@ class App extends Component {
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
           <Route path= "/jobs/new" exact component={NewJob}/>
+          <Route path="/jobs/:id/candidates" exact component={Candidates} />
           <Route path="/jobs" exact component={Jobs} />
           <Route path= "/recruiters/:id" component={RecruiterPage}/>
           

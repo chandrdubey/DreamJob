@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require("helmet");
 const passport = require('passport');
 const PORT = "5000";
-//const passportJwt = require('./config/passport-jwt-strategy')
+const passportJwt = require('./config/passport-jwt-strategy')
 app.use(express.json());
 app.use(helmet());
 app.use(express.urlencoded({extended:false})); 

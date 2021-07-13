@@ -1,4 +1,4 @@
-const pool = require('../config/pg');
+const pool = require("../config/connection");
 
 module.exports = {
     allJobs: async(req, res) => {

@@ -25,8 +25,8 @@ class RecruiterPage extends Component {
       type: "LOADING",
     });
     const { user_id } = this.props.currentUser;
-    //const data = { recruiter_id: 1 };
-    axios.get(`${API}/recruiters/${recruiter_id}/jobs`, data).then((response) => {
+    const data = { recruiter_id: 1 };
+    axios.get(`${API}/recruiters/${user_id}/jobs`, data).then((response) => {
       console.log(response);
       this.setState({
         allJobs: response.data.result,
@@ -34,27 +34,25 @@ class RecruiterPage extends Component {
       this.props.dispatch({
         type: "UNLOADING",
       });
-
-      //     this.props.dispatch({
-      //       type: "ALL JOBS RECRUITER",
-      //       payload: response.data.data.favcharecters,
-      //     });
-      //
+     
     });
   }
   render() {
-    console.log(this.state.allJobs);
+   // console.log(this.state.allJobs);
     return this.props.isLoading ? (
       <div className="mx-auto spinner-head ">
         <Spinner />
       </div>
     ) : (
-      <div className="container text-center">
+      <div className="container mt-5">
+        <div className="text-center">
         <Link className="btn btn-primary" to={`/jobs/new`}>
           Add new job
         </Link>
-        <h2>ALL previews jobs</h2>
-        <div className="row">
+        <h2>ALL Previews Jobs</h2>
+        <hr/>
+        </div>
+        <div className="row ">
           {this.state.allJobs.length > 0 ? (
             this.state.allJobs.map((data) => (
               <div key={data.job_id} className="card-len">
@@ -66,8 +64,8 @@ class RecruiterPage extends Component {
                        {data.description}
                     </p>
                     <h6>{data.city}</h6>
-                    <Link className="btn btn-primary" to={`/jobs/new/${data.job_id}`}>
-                          All candidates
+                    <Link className="btn btn-primary" to={`/jobs/${data.job_id}/candidates`}>
+                          View all candidates
                     </Link>
                   </div>
                 </div>
