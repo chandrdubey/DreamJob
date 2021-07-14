@@ -31,7 +31,7 @@ import Spinner from "./Spinner";
         //console.log(this.params);
         const { user_id } = this.props.currentUser;
         //const data = { recruiter_id: 1 };
-        axios.get(`${API}/recruiters/${user_id}/jobs/${job_id}`,).then((response) => {
+        axios.get(`${API}/recruiters/${user_id}/jobs/${job_id}/candidates`,).then((response) => {
           console.log(response);
           this.setState({
             allcandidates: response.data.result,

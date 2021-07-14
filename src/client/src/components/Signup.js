@@ -100,7 +100,7 @@ class Signup extends Component {
             className="form-style mt-3 "
             onSubmit={this.handleOnSubmitJobSeeeker}
           >
-            <h3 className="text-center">Sign Up</h3>
+            <h3 className="text-center">Sign Up for JobSeekers</h3>
             <div className="form-group mb-2">
               <input
                 type="text"
@@ -182,7 +182,7 @@ class Signup extends Component {
             className="form-style mt-3 "
             onSubmit={this.handleOnSubmitEmployer}
           >
-            <h3 className="text-center">Sign Up</h3>
+            <h3 className="text-center">Sign Up for Recruiters</h3>
             <div className="form-group mb-2">
               <input
                 type="text"

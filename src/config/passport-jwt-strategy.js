@@ -10,10 +10,10 @@ const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey:config.JWT_SECRET
 };
-
 // The JWT payload is passed into the verify callback
 passport.use(new JwtStrategy(options, function(jwt_payload, done) {
-    
+
+    console.log(jwt_payload);
     // We will assign the `sub` property on the JWT to the database ID of user
     pool.query('SELECT * FROM recruiters WHERE recruiter_id=$1',[jwt_payload.id],(err, user)=> {
         

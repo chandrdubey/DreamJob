@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const  config  = require('../config/index');
 
 const JWT_SECRET = config.JWT_SECRET;
-console.log(JWT_SECRET);
 module.exports = {
     signup: async (req, res) => {
         try {

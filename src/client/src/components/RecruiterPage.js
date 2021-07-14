@@ -12,21 +12,22 @@ class RecruiterPage extends Component {
     };
   }
   componentDidMount() {
-    // const token = localStorage.getItem("token");
-    // const jwttoken = "Bearer " + token;
+    const token = localStorage.getItem("token");
+    const jwttoken = "Bearer " + token;
 
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: jwttoken,
-    //   },
-    // };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: jwttoken,
+      },
+    };
     this.props.dispatch({
       type: "LOADING",
     });
+    //console.log(config);
     const { user_id } = this.props.currentUser;
-    const data = { recruiter_id: 1 };
-    axios.get(`${API}/recruiters/${user_id}/jobs`, data).then((response) => {
+    //const data = { recruiter_id: 1 };
+    axios.get(`${API}/recruiters/${user_id}/jobs`, config).then((response) => {
       console.log(response);
       this.setState({
         allJobs: response.data.result,

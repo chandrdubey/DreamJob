@@ -29,13 +29,26 @@ class NewJob extends Component {
         city: this.state.city,
         recruiter_id:1
     };
-    // this.props.history.push(`/recruiters/${recruiter_id}`);
-    axios.post(`${API}/jobs/new`, data).then((response) => {
+    const token = localStorage.getItem("token");
+    const jwttoken = "Bearer " + token;
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: jwttoken,
+      },
+    };
+    console.log(config);
+     this.props.history.push(`/recruiters/${recruiter_id}`);
+    axios.post(`${API}/jobs/new`, data, config).then((response) => {
          console.log(response);
     })
-    console.log(data);
+    this.props.history.push(`/recruiters/${recruiter_id}`);
+   // console.log(data);
   };
+
   render() {
+    
     return (
       <div className="container">
         <div className="formStyle text-center mx-auto">
