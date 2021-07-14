@@ -7,7 +7,7 @@ A job portal for job-seekers using react.js, Postgres, node.js, and express.js. 
 3. PostgreSQL
 4. Redux
 5. Bootstrap
-6. JsonWebtToken
+6. JsonWebToken
 7. Express.js
 
 ## Installation
