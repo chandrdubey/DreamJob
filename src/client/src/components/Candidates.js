@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from "axios";
 import API from "../urls";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect} from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "./Spinner";
  class candidates extends Component {
@@ -12,18 +12,18 @@ import Spinner from "./Spinner";
         };
       }
       componentDidMount() {
-        // const token = localStorage.getItem("token");
-        // const jwttoken = "Bearer " + token;
+        const token = localStorage.getItem("token");
+        const jwttoken = "Bearer " + token;
     
-        // const config = {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: jwttoken,
-        //   },
-        // };
-        // this.props.dispatch({
-        //   type: "LOADING",
-        // });
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: jwttoken,
+          },
+        };
+        this.props.dispatch({
+          type: "LOADING",
+        });
         const {
             match: { params },
           } = this.props;
@@ -31,18 +31,21 @@ import Spinner from "./Spinner";
         //console.log(this.params);
         const { user_id } = this.props.currentUser;
         //const data = { recruiter_id: 1 };
-        axios.get(`${API}/recruiters/${user_id}/jobs/${job_id}/candidates`,).then((response) => {
+        axios.get(`${API}/recruiters/${user_id}/jobs/${job_id}/candidates`,config).then((response) => {
           console.log(response);
           this.setState({
             allcandidates: response.data.result,
           });
-        //   this.props.dispatch({
-        //     type: "UNLOADING",
-        //   });
+          this.props.dispatch({
+            type: "UNLOADING",
+          });
          
         });
       }
     render() {
+      if(!this.props.isLoggedIn){
+        return <Redirect to="/signin"/>
+      }
         return this.props.isLoading ? (
             <div className="mx-auto spinner-head ">
               <Spinner />
@@ -54,9 +57,10 @@ import Spinner from "./Spinner";
               <hr/>
               </div>
               <div className="row ">
-                {this.state.allcandidates.length > 0 ? (
+                {this.state.allcandidates && this.state.allcandidates.length > 0 ? (
                   this.state.allcandidates.map((data) => (
-                    <div key={data.job_id} className="card-len">
+                    <div className="col-3 m-auto" key={data.user_id} >
+                    <div className="card-len">
                       <div className="card" >
                         <div className="card-body">
                           <h5 className="card-title">Name: {" "+data.name}</h5>
@@ -67,6 +71,7 @@ import Spinner from "./Spinner";
                           <h6>City: {" "+data.city}</h6>
                         </div>
                       </div>
+                    </div>
                     </div>
                   ))
                 ) : (

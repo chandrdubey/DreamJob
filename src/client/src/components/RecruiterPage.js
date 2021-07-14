@@ -9,6 +9,7 @@ class RecruiterPage extends Component {
     super(props);
     this.state = {
       allJobs: [],
+      
     };
   }
   componentDidMount() {
@@ -24,11 +25,9 @@ class RecruiterPage extends Component {
     this.props.dispatch({
       type: "LOADING",
     });
-    //console.log(config);
     const { user_id } = this.props.currentUser;
     //const data = { recruiter_id: 1 };
     axios.get(`${API}/recruiters/${user_id}/jobs`, config).then((response) => {
-      console.log(response);
       this.setState({
         allJobs: response.data.result,
       });
@@ -39,7 +38,9 @@ class RecruiterPage extends Component {
     });
   }
   render() {
-   // console.log(this.state.allJobs);
+   if(!this.props.isLoggedIn){
+     return <Redirect to="/signin"/>
+   }
     return this.props.isLoading ? (
       <div className="mx-auto spinner-head ">
         <Spinner />
@@ -54,9 +55,10 @@ class RecruiterPage extends Component {
         <hr/>
         </div>
         <div className="row ">
-          {this.state.allJobs.length > 0 ? (
+          { this.state.allJobs  && this.state.allJobs.length > 0 ? (
             this.state.allJobs.map((data) => (
-              <div key={data.job_id} className="card-len">
+              <div className="col-3 m-auto"  key={data.job_id}>
+              <div className="card-len">
                 <div className="card" >
                   <div className="card-body">
                     <h5 className="card-title">{data.title}</h5>
@@ -69,6 +71,7 @@ class RecruiterPage extends Component {
                           View all candidates
                     </Link>
                   </div>
+                </div>
                 </div>
               </div>
             ))

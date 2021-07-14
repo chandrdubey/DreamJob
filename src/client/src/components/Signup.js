@@ -62,8 +62,6 @@ class Signup extends Component {
       userType: this.props.userType
     };
        axios.post(`${API}/signup`, data).then((response) => {
-         console.log(response);
-         console.log(response.data)
          if(response.data.status === 200){
             localStorage.setItem("token", response.data.token);
             this.props.dispatch({

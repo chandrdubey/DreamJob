@@ -115,7 +115,6 @@ module.exports = {
     signin : async (req, res) => {
         try {
             const {userType} = req.body;
-            console.log(req.body);
             if (userType === undefined) {
                 return res.json({status: 400, message: "Type of user is missing"});
             }
@@ -194,9 +193,9 @@ module.exports = {
     recruiterAllJobs: async (req, res) => {
         try{
             const {id} = req.params;
-            console.log(id);
+         
             const result = await pool.query("SELECT * FROM jobs WHERE recruiter_id = $1",[id]);
-            console.log(result.rows);
+         
             res.json({status:200, result:result.rows});
         }
         catch (err) {
@@ -216,7 +215,7 @@ module.exports = {
     jobAllCandidates: async (req, res)=>{
         try{
             const {jobId} = req.params;
-            console.log(jobId);
+          
             const result = await pool.query("SELECT s.user_id, s.name, s.email, s.city, s.created_at, s.mobile_number, appli.application_id from jobseekers as s inner join applications as appli on appli.user_id = s.user_id where appli.job_id = $1",[jobId])
             res.json({status:200, result:result.rows});
         }

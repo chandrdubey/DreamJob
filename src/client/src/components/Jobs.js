@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import API from "../urls";
-import { Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "./Spinner";
 class Jobs extends Component {
@@ -10,28 +9,29 @@ class Jobs extends Component {
     this.state = {
       allJobs: [],
       query: "",
+      searchJobs:[]
     };
   }
   componentDidMount() {
     this.props.dispatch({ type: "LOADING" });
     axios.get(`${API}/jobs/all`).then((response) => {
-      console.log(response);
       this.setState({ allJobs: response.data.data });
       this.props.dispatch({ type: "UNLOADING" });
     });
   }
   handleClick(job_id) {
-    console.log(1);
+  
     if (this.props.isLoggedIn) {
       const { user_id } = this.props.currentUser;
       const data = {
         user_id: user_id,
         job_id: job_id,
       };
-      console.log(data);
       axios.post(`${API}/candidates/jobs/apply`, data).then((response) => {
-        console.log(response);
+        alert("Applied Succesfully");
       });
+    }else{
+      alert("You need to be looged in to apply");
     }
   }
   handleChange = (e) => {
@@ -85,9 +85,10 @@ class Jobs extends Component {
           <hr />
         </div>
         <div className="row ">
-          {this.state.allJobs.length > 0 ? (
+          {this.state.allJobs && this.state.allJobs.length > 0 ? (
             this.state.allJobs.map((data) => (
-              <div key={data.job_id} className="card-len">
+              <div className="col-3 m-auto"  key={data.job_id} >
+              <div className="card-len">
                 <div className="card">
                   <div className="card-body">
                     <h5 className="card-title">{data.title}</h5>
@@ -105,10 +106,11 @@ class Jobs extends Component {
                   </div>
                 </div>
               </div>
+              </div>
             ))
           ) : (
             <h4>No Job Found</h4>
-          )}{" "}
+          )}
         </div>
       </div>
     );

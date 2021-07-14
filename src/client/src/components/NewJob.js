@@ -48,7 +48,9 @@ class NewJob extends Component {
   };
 
   render() {
-    
+    if(!this.props.isLoggedIn){
+      return <Redirect to="/signin"/>
+    }
     return (
       <div className="container">
         <div className="formStyle text-center mx-auto">
