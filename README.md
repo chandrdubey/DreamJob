@@ -9,7 +9,7 @@ A job portal for job-seekers.
 5. Bootstrap
 6. JsonWebtToken
 7. Express.js
-8. 
+
 ## Installation
 - Clone the repository using `git clone` and then change the directory to root of the project
 ``` 
